@@ -1,0 +1,107 @@
+/* Layout */
+.chat-page {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 24px;
+  padding: 24px;
+  height: calc(100vh - 40px);
+  box-sizing: border-box;
+  background: #f3f4f6;
+}
+
+.sidebar {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(2,6,23,0.06);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 18px;
+  border-bottom:1px solid #f1f5f9;
+}
+
+.signout-btn{
+  background:#ef4444;
+  color:#fff;
+  border:none;
+  padding:8px 10px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.chat-area{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+
+.chat-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 18px;
+  background:linear-gradient(90deg,#ffffff,#fafafa);
+  border-radius:12px;
+  margin-bottom:12px;
+}
+
+.messages{
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 18px;
+  flex:1;
+  overflow:auto;
+  box-shadow: inset 0 1px 0 #f8fafc;
+}
+
+.message-row{ display:flex; margin-bottom:10px; }
+.msg-right{ justify-content:flex-end }
+.msg-left{ justify-content:flex-start }
+
+.message-bubble{
+  max-width:70%;
+  padding:10px 14px;
+  border-radius:12px;
+  box-shadow: 0 1px 2px rgba(2,6,23,0.04);
+}
+.bubble-customer{ background:#4f46e5; color:#fff; border-bottom-right-radius:2px }
+.bubble-ai{ background:#f3f4f6; color:#0f172a }
+
+.message-text{ margin-bottom:6px; font-size:14px }
+.message-meta{ font-size:11px; color:rgba(15,23,42,0.5); text-align:right }
+
+.typing{ color:#6b7280; font-style:italic }
+
+.composer{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+}
+.composer-input{
+  flex:1;
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid #e6eef8;
+  outline:none;
+}
+.send-btn{
+  background:#0ea5a4;
+  color:#fff;
+  border:none;
+  padding:10px 16px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* Responsive */
+@media (max-width: 900px){
+  .chat-page{ grid-template-columns: 1fr; height:auto }
+  .sidebar{ order:2 }
+  .chat-area{ order:1 }
+}

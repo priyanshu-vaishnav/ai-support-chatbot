@@ -1,8 +1,15 @@
-const supabase = require('../config/supabaseClient');
+const supabase = require("../config/supabaseClient");
 
-async function createTicket({ issueText, category, priority, summary, customerName, customerEmail }) {
+async function createTicket({
+  issueText,
+  category,
+  priority,
+  summary,
+  customerName,
+  customerEmail,
+}) {
   const { data, error } = await supabase
-    .from('tickets')
+    .from("tickets")
     .insert({
       issue_text: issueText,
       category,
@@ -10,7 +17,7 @@ async function createTicket({ issueText, category, priority, summary, customerNa
       ai_summary: summary,
       customer_name: customerName || null,
       customer_email: customerEmail || null,
-      status: 'open'
+      status: "open",
     })
     .select()
     .single();
@@ -21,9 +28,19 @@ async function createTicket({ issueText, category, priority, summary, customerNa
 
 async function getAllTickets() {
   const { data, error } = await supabase
-    .from('tickets')
-    .select('*')
-    .order('created_at', { ascending: false });
+    .from("tickets")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+async function getUserTickets(customerEmail) {
+  const { data, error } = await supabase
+    .from("tickets")
+    .select("*") // "*" se saare columns milenge, ya fir sirf "customer_email" chahiye to wo likho
+    .eq("customer_email", customerEmail); // Ye filter karega email ke basis par
 
   if (error) throw new Error(error.message);
   return data;
@@ -31,9 +48,9 @@ async function getAllTickets() {
 
 async function updateTicketStatus(id, status) {
   const { data, error } = await supabase
-    .from('tickets')
+    .from("tickets")
     .update({ status })
-    .eq('id', id)
+    .eq("id", id)
     .select()
     .single();
 
@@ -43,13 +60,19 @@ async function updateTicketStatus(id, status) {
 
 async function replyToTicket(id, replyText) {
   const { data, error } = await supabase
-    .from('tickets')
-    .update({ admin_reply: replyText, status: 'resolved' })
-    .eq('id', id)
+    .from("tickets")
+    .update({ admin_reply: replyText, status: "resolved" })
+    .eq("id", id)
     .select()
     .single();
 
   if (error) throw new Error(error.message);
   return data;
 }
-module.exports = { createTicket, getAllTickets, updateTicketStatus ,replyToTicket};
+module.exports = {
+  createTicket,
+  getAllTickets,
+  getUserTickets,
+  updateTicketStatus,
+  replyToTicket,
+};

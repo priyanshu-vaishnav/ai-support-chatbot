@@ -11,6 +11,7 @@ export default function ProtectedRoute({ children }) {
   return user && user.user_metadata.role === "admin" ? (
     children
   ) : (
+    
     <Navigate to="/chatpage" />
   );
 }
