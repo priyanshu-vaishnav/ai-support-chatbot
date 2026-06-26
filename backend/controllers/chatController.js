@@ -1,5 +1,5 @@
 const { searchKnowledgeBase } = require('../models/knowledgeBaseModel');
-const { createTicket, getAllTickets, updateTicketStatus } = require('../models/ticketModel');
+const { createTicket, getAllTickets, updateTicketStatus ,getUserTickets} = require('../models/ticketModel');
 const { getAIDecision } = require('../services/geminiService');
 const { replyToTicket } = require('../models/ticketModel');
 const { AIResponseSchema } = require('../validators/aiResponseSchema');
@@ -68,6 +68,16 @@ async function getTickets(req, res) {
   }
 }
 
+async function UserTickets(req, res) {
+  try {
+    const { customerEmail } = req.body;
+    const tickets = await getUserTickets(customerEmail);
+    res.json(tickets);
+  } catch (err) {
+    console.error("Backend Error:", err);
+    res.status(500).json({ error: err.message });
+  }
+}
 async function resolveTicket(req, res) {
   const { id } = req.params;
   try {
@@ -93,4 +103,4 @@ async function sendReply(req, res) {
   }
 }
 
-module.exports = { handleChat, getTickets, resolveTicket,sendReply };
+module.exports = { handleChat, getTickets, resolveTicket,sendReply,UserTickets };

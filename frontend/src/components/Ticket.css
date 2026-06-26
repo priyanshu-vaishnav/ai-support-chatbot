@@ -1,0 +1,175 @@
+/* Container jo cards ko grid mein set karega */
+.ticket-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Main Card */
+.ticket-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ticket-card:hover {
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+}
+
+/* Top Header Elements */
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.category-tag {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+/* Dynamic Priority Colors */
+.priority-tag {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.priority-high {
+  background: #fff1f2;
+  color: #e11d48;
+  border: 1px solid #ffe4e6;
+}
+.priority-normal {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+/* Content Styles */
+.customer-info {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.customer-email {
+  font-size: 12px;
+  font-weight: 400;
+  color: #94a3b8;
+}
+
+.issue-box {
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #334155;
+  font-style: italic;
+  margin: 8px 0;
+}
+
+/* AI Summary Tint Box */
+.ai-box {
+  background: #f0fdf4; /* Light green tint for clean tech look */
+  border: 1px solid #dcfce7;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  color: #166534;
+  margin-bottom: 12px;
+}
+
+/* Footer Section */
+.ticket-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* Status Badge with Dot */
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+.status-open { background: #ecfdf5; color: #047857; }
+.status-closed { background: #f1f5f9; color: #64748b; }
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.dot-open { background: #10b981; }
+.dot-closed { background: #94a3b8; }
+
+/* Header tags alignment */
+.status-tags-group {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* Replied and Pending Tag Styles */
+.reply-status-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.reply-done {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+.reply-wait {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+/* Admin Reply Content Box */
+.admin-reply-box {
+  background: #f8fafc;
+  border-left: 3px solid #0284c7; /* Blue line for admin signature */
+  padding: 8px 10px;
+  border-radius: 0 8px 8px 0;
+  font-size: 12px;
+  color: #0f172a;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+.admin-reply-box p {
+  margin: 4px 0 0 0;
+  font-weight: 500;
+}
+
+/* Optional: Card outline based on status */
+.card-replied {
+  border-color: #cbd5e1; /* Slightly defined border for sorted items */
+}
+.card-pending {
+  border-color: #f1f5f9;
+}

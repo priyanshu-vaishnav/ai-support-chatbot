@@ -1,30 +1,57 @@
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+import axios from 'axios'
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
+const axiosInstance = axios.create({
+  baseURL: BACKEND_URL,
+  headers: { 'Content-Type': 'application/json' }
+})
 
 export async function sendChatMessage(message, customerName, customerEmail) {
-  const res = await fetch(`${BACKEND_URL}/api/chat`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message, customerName, customerEmail })
-  });
-  return res.json();
+  try {
+    const res = await axiosInstance.post('/api/chat', { message, customerName, customerEmail })
+    return res.data
+  } catch (err) {
+    console.error('sendChatMessage error:', err)
+    return { type: 'error', reply: 'Connection error. Please try again.' }
+  }
 }
 
 export async function fetchTickets() {
-  const res = await fetch(`${BACKEND_URL}/api/tickets`);
-  return res.json();
+  try {
+    const res = await axiosInstance.get('/api/tickets')
+    return res.data
+  } catch (err) {
+    console.error('fetchTickets error:', err)
+    return []
+  }
+}
+export async function fetchUserTickets(customerEmail) {
+  try {
+    const res = await axiosInstance.post('/api/usertickets',{customerEmail})
+    return res.data
+  } catch (err) {
+    console.error('fetchTickets error:', err)
+    return []
+  }
 }
 
 export async function resolveTicket(ticketId) {
-  const res = await fetch(`${BACKEND_URL}/api/tickets/${ticketId}/resolve`, {
-    method: 'PATCH'
-  });
-  return res.json();
+  try {
+    const res = await axiosInstance.patch(`/api/tickets/${ticketId}/resolve`)
+    return res.data
+  } catch (err) {
+    console.error('resolveTicket error:', err)
+    return null
+  }
 }
+
 export async function replyToTicket(ticketId, replyText) {
-  const res = await fetch(`${BACKEND_URL}/api/tickets/${ticketId}/reply`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ replyText })
-  });
-  return res.json();
+  try {
+    const res = await axiosInstance.patch(`/api/tickets/${ticketId}/reply`, { replyText })
+    return res.data
+  } catch (err) {
+    console.error('replyToTicket error:', err)
+    return null
+  }
 }
