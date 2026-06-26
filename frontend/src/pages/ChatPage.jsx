@@ -7,12 +7,24 @@ import TicketList from "../components/TicketList";
 import "./ChatPage.css";
 
 export default function ChatPage() {
+<<<<<<< Updated upstream
   const { user, signOut } = useAuth();
+=======
+  
+  const { user, signOut,role } = useAuth();
+  const [usertickets, setUserTickets] = useState([]);
+
+>>>>>>> Stashed changes
   const navigate = useNavigate();
 
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+<<<<<<< Updated upstream
+=======
+  const messagesRef = useRef(null);
+  console.log(role)
+>>>>>>> Stashed changes
 
   useEffect(() => {
     if (user && user.id && user.user_metadata?.username) {
@@ -39,7 +51,7 @@ export default function ChatPage() {
       }
     }
     getTickets();
-  }, [user?.email]);
+  }, [user?.email,messages]);
 
   useEffect(() => {
     // Auto-scroll to bottom when messages change
