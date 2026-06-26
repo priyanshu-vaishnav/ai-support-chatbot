@@ -7,6 +7,7 @@ import TicketList from "../components/TicketList";
 import "./ChatPage.css";
 
 export default function ChatPage() {
+<<<<<<< HEAD
 <<<<<<< Updated upstream
   const { user, signOut } = useAuth();
 =======
@@ -15,16 +16,26 @@ export default function ChatPage() {
   const [usertickets, setUserTickets] = useState([]);
 
 >>>>>>> Stashed changes
+=======
+  
+  const { user, signOut } = useAuth();
+  const [usertickets, setUserTickets] = useState([]);
+
+>>>>>>> 356c06ac965f97f3c530a789702c75868c4ec8aa
   const navigate = useNavigate();
 
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
   const messagesRef = useRef(null);
   console.log(role)
 >>>>>>> Stashed changes
+=======
+  const messagesRef = useRef(null);
+>>>>>>> 356c06ac965f97f3c530a789702c75868c4ec8aa
 
   useEffect(() => {
     if (user && user.id && user.user_metadata?.username) {
@@ -51,7 +62,11 @@ export default function ChatPage() {
       }
     }
     getTickets();
+<<<<<<< HEAD
   }, [user?.email,messages]);
+=======
+  }, [user?.email]);
+>>>>>>> 356c06ac965f97f3c530a789702c75868c4ec8aa
 
   useEffect(() => {
     // Auto-scroll to bottom when messages change
@@ -59,6 +74,7 @@ export default function ChatPage() {
     if (el) el.scrollTop = el.scrollHeight;
   }, [messages, loading]);
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
   useEffect(() => {
@@ -81,6 +97,8 @@ export default function ChatPage() {
   }, [messages, loading]);
 
 >>>>>>> Stashed changes
+=======
+>>>>>>> 356c06ac965f97f3c530a789702c75868c4ec8aa
   const handleSend = async () => {
     if (!input.trim()) return;
     const userMessage = input.trim();
