@@ -6,10 +6,12 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
+      setRole(session?.user.user_metadata?.role ?? null);
       setLoading(false);
     });
 
@@ -17,6 +19,7 @@ export function AuthProvider({ children }) {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      setRole(session?.user.user_metadata?.role ?? null);
     });
 
     return () => subscription.unsubscribe();
@@ -40,6 +43,7 @@ export function AuthProvider({ children }) {
 
     if (data?.user) {
       setUser(data.user);
+        setRole(data?.user.user_metadata?.role ?? null);
     }
 
     return { data, error };
@@ -50,7 +54,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, signOut, signUp }}>
+    <AuthContext.Provider value={{ user, loading, signIn, signOut, signUp ,role,setRole}}>
       {children}
     </AuthContext.Provider>
   );

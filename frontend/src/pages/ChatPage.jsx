@@ -4,13 +4,25 @@ import { useAuth } from "../services/authContext";
 import { useNavigate } from "react-router-dom";
 
 export default function ChatPage() {
+<<<<<<< Updated upstream
   const { user, signOut } = useAuth();
+=======
+  
+  const { user, signOut,role } = useAuth();
+  const [usertickets, setUserTickets] = useState([]);
+
+>>>>>>> Stashed changes
   const navigate = useNavigate();
 
   // 1. इनिशियल स्टेट को खाली [] रखें ताकि रिफ्रेश पर क्रैश न हो
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+<<<<<<< Updated upstream
+=======
+  const messagesRef = useRef(null);
+  console.log(role)
+>>>>>>> Stashed changes
 
   // 2. यूज़र लोड होने पर ही पहला वेलकम मैसेज दिखाएं
   useEffect(() => {
@@ -26,6 +38,28 @@ export default function ChatPage() {
     }
   }, [user]);
 
+<<<<<<< Updated upstream
+=======
+  useEffect(() => {
+    async function getTickets() {
+      if (!user?.email) return;
+      try {
+        const data = await fetchUserTickets(user.email);
+        setUserTickets(data || []);
+      } catch (err) {
+        console.error("Error fetching tickets:", err);
+      }
+    }
+    getTickets();
+  }, [user?.email,messages]);
+
+  useEffect(() => {
+    // Auto-scroll to bottom when messages change
+    const el = messagesRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [messages, loading]);
+
+>>>>>>> Stashed changes
   const handleSend = async () => {
     if (!input.trim()) return;
 
