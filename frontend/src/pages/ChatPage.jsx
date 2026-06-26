@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { sendChatMessage } from "../services/api";
-import { useAuth } from "../services/authContext";
+import { useAuth } from "../services/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { fetchUserTickets } from "../services/api";
 import TicketList from "../components/TicketList";
