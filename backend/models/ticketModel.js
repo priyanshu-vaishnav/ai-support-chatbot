@@ -69,10 +69,24 @@ async function replyToTicket(id, replyText) {
   if (error) throw new Error(error.message);
   return data;
 }
+
+async function getLatestTicketByEmail(email) {
+  const { data, error } = await supabase
+    .from("tickets")
+    .select("*")
+    .eq("customer_email", email)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (error) throw new Error(error.message);
+  return data;
+}
+
 module.exports = {
   createTicket,
   getAllTickets,
   getUserTickets,
   updateTicketStatus,
   replyToTicket,
+  getLatestTicketByEmail
 };
