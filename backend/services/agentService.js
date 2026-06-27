@@ -22,6 +22,13 @@ async function runAgent({ input, customerName, customerEmail }) {
       baseUrl: process.env.OLLAMA_BASE_URL || "http://localhost:11434",
       streaming: false, // 👈 Ye line add karo taaki response freeze na ho
     });
+  }else {
+    console.log("[System] Switching to CLOUD GOOGLE GEMINI...");
+    model = new ChatGoogleGenerativeAI({
+      apiKey: process.env.GEMINI_API_KEY, // Env variable se secure key load hogi
+      model: "gemini-2.5-flash",          // Default recommended model set kiya
+      temperature: 0,
+    });
   }
 
   const tools = [
