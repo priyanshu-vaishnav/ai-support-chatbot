@@ -12,6 +12,11 @@ export default function AdminDashboard() {
     setReplyInputs((prev) => ({ ...prev, [id]: text }));
   };
 
+  const loadTickets = async () => {
+    const data = await fetchTickets();
+    setTickets(data);
+  };
+
   const handleSendReply = async (id) => {
     const text = replyInputs[id];
     if (!text || !text.trim()) return;
@@ -24,11 +29,6 @@ export default function AdminDashboard() {
     loadTickets();
   }, []);
 
-  const loadTickets = async () => {
-    const data = await fetchTickets();
-    setTickets(data);
-  };
-
   const handleResolve = async (id) => {
     await resolveTicket(id);
     loadTickets();
@@ -39,8 +39,9 @@ export default function AdminDashboard() {
 
   const badgeStyle = (status) => ({
     padding: "4px 10px",
-    borderRadius: "20px",
+    borderRadius: "999px",
     fontSize: "12px",
+    fontWeight: 700,
     color: "#fff",
     background: status === "open" ? "#f59e0b" : "#16a34a",
   });
@@ -48,137 +49,121 @@ export default function AdminDashboard() {
   const priorityColor = (p) =>
     p === "high" ? "#dc2626" : p === "medium" ? "#f59e0b" : "#16a34a";
 
+  const totalTickets = tickets.length;
+  const openTickets = tickets.filter((t) => t.status === "open").length;
+  const resolvedTickets = tickets.filter((t) => t.status === "resolved").length;
+
   return (
-    <div
-      style={{ maxWidth: "900px", margin: "40px auto", fontFamily: "Arial" }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "20px",
-        }}
-      >
-        <h2>Admin Dashboard — Support Tickets</h2>
-        <button
-          onClick={signOut}
-          style={{
-            padding: "8px 16px",
-            background: "#dc2626",
-            color: "#fff",
-            border: "none",
-            borderRadius: "6px",
-            cursor: "pointer",
-          }}
-        >
+    <div className="dashboard-shell">
+      <div className="dashboard-header">
+        <div>
+          <p className="eyebrow">Admin Control Center</p>
+          <h1>Support tickets</h1>
+          <p>Review incoming requests and respond quickly.</p>
+        </div>
+        <button className="btn btn-danger" onClick={signOut}>
           Logout
         </button>
       </div>
 
-      <div style={{ marginBottom: "16px" }}>
-        {["all", "open", "resolved"].map((f) => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
-            style={{
-              marginRight: "8px",
-              padding: "6px 14px",
-              borderRadius: "6px",
-              border: "1px solid #ccc",
-              background: filter === f ? "#4f46e5" : "#fff",
-              color: filter === f ? "#fff" : "#000",
-              cursor: "pointer",
-            }}
-          >
-            {f.charAt(0).toUpperCase() + f.slice(1)}
-          </button>
-        ))}
+      <div className="stats-grid">
+        <div className="stat-card">
+          <strong>{totalTickets}</strong>
+          <span>Total tickets</span>
+        </div>
+        <div className="stat-card">
+          <strong>{openTickets}</strong>
+          <span>Open</span>
+        </div>
+        <div className="stat-card">
+          <strong>{resolvedTickets}</strong>
+          <span>Resolved</span>
+        </div>
       </div>
 
-      <div
-        style={{
-          background: "#fff",
-          borderRadius: "12px",
-          overflow: "hidden",
-          border: "1px solid #eee",
-        }}
-      >
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead style={{ background: "#f1f1f5" }}>
-            <tr>
-              <th style={{ padding: "12px", textAlign: "left" }}>Issue</th>
-              <th style={{ padding: "12px", textAlign: "left" }}>Category</th>
-              <th style={{ padding: "12px", textAlign: "left" }}>Priority</th>
-              <th style={{ padding: "12px", textAlign: "left" }}>Summary</th>
-              <th style={{ padding: "12px", textAlign: "left" }}>Status</th>
-              <th style={{ padding: "12px", textAlign: "left" }}>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-          {filteredTickets.map((t) => (
-  <tr key={t.id} style={{ borderTop: "1px solid #eee" }}>
-    <td style={{ padding: "12px", maxWidth: "200px" }}>
-      {t.issue_text}
-    </td>
-    <td style={{ padding: "12px" }}>{t.category}</td>
-    <td style={{ padding: "12px", color: priorityColor(t.priority), fontWeight: "bold" }}>
-      {t.priority}
-    </td>
-    <td style={{ padding: "12px", maxWidth: "200px" }}>
-      {t.ai_summary}
-    </td>
-    <td style={{ padding: "12px" }}>
-      <span style={badgeStyle(t.status)}>{t.status}</span>
-    </td>
-    <td style={{ padding: "12px" }}>
-                  {t.status === "open" && (
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "6px",
-                        minWidth: "180px",
-                      }}
-                    >
-                      <textarea
-                        value={replyInputs[t.id] || ""}
-                        onChange={(e) =>
-                          handleReplyChange(t.id, e.target.value)
-                        }
-                        placeholder="Type a reply..."
-                        style={{
-                          padding: "6px",
-                          borderRadius: "6px",
-                          border: "1px solid #ccc",
-                          fontSize: "13px",
-                        }}
-                      />
-                      <button
-                        onClick={() => handleSendReply(t.id)}
-                        style={{
-                          background: "#4f46e5",
-                          color: "#fff",
-                          border: "none",
-                          padding: "6px 12px",
-                          borderRadius: "6px",
-                          cursor: "pointer",
-                        }}
-                      >
-                        Send Reply & Resolve
-                      </button>
-                    </div>
-                  )}
-                  {t.status === "resolved" && t.admin_reply && (
-                    <p style={{ fontSize: "13px", color: "#555" }}>
-                      <strong>Replied:</strong> {t.admin_reply}
-                    </p>
-                  )}
-                </td>
-              </tr>
+      <div className="dashboard-card">
+        <div className="toolbar">
+          <div className="filter-group">
+            {['all', 'open', 'resolved'].map((f) => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={`chip ${filter === f ? "chip-active" : ""}`}
+              >
+                {f.charAt(0).toUpperCase() + f.slice(1)}
+              </button>
             ))}
-          </tbody>
-        </table>
+          </div>
+          <span className="muted">{filteredTickets.length} tickets shown</span>
+        </div>
+
+        {filteredTickets.length === 0 ? (
+          <div className="empty-state">No tickets match this view right now.</div>
+        ) : (
+          <div className="table-wrap">
+            <table className="ticket-table">
+              <thead>
+                <tr>
+                  <th>Issue</th>
+                  <th>Category</th>
+                  <th>Priority</th>
+                  <th>Summary</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredTickets.map((t) => (
+                  <tr key={t.id}>
+                    <td>{t.issue_text}</td>
+                    <td>{t.category}</td>
+                    <td>
+                      <span style={{ color: priorityColor(t.priority), fontWeight: 700 }}>
+                        {t.priority}
+                      </span>
+                    </td>
+                    <td>{t.ai_summary}</td>
+                    <td>
+                      <span className="status-badge" style={badgeStyle(t.status)}>
+                        {t.status}
+                      </span>
+                    </td>
+                    <td>
+                      {t.status === "open" && (
+                        <div className="action-cell">
+                          <textarea
+                            value={replyInputs[t.id] || ""}
+                            onChange={(e) => handleReplyChange(t.id, e.target.value)}
+                            placeholder="Type a reply..."
+                          />
+                          <div className="action-buttons">
+                            <button
+                              onClick={() => handleSendReply(t.id)}
+                              className="btn btn-small"
+                            >
+                              Send reply
+                            </button>
+                            <button
+                              onClick={() => handleResolve(t.id)}
+                              className="btn btn-secondary btn-small"
+                            >
+                              Resolve
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                      {t.status === "resolved" && t.admin_reply && (
+                        <p className="reply-text">
+                          <strong>Replied:</strong> {t.admin_reply}
+                        </p>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

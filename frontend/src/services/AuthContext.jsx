@@ -35,6 +35,7 @@ export function AuthProvider({ children }) {
     });
     return { data, error };
   };
+
   const signIn = async (email, password) => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -43,7 +44,7 @@ export function AuthProvider({ children }) {
 
     if (data?.user) {
       setUser(data.user);
-        setRole(data?.user.user_metadata?.role ?? null);
+      setRole(data?.user.user_metadata?.role ?? null);
     }
 
     return { data, error };
@@ -51,10 +52,12 @@ export function AuthProvider({ children }) {
 
   const signOut = async () => {
     await supabase.auth.signOut();
+    setUser(null);
+    setRole(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, signOut, signUp ,role,setRole}}>
+    <AuthContext.Provider value={{ user, loading, signIn, signOut, signUp, role, setRole }}>
       {children}
     </AuthContext.Provider>
   );

@@ -14,6 +14,7 @@ export default function ChatPage() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showTickets, setShowTickets] = useState(false);
   const messagesRef = useRef(null);
 
   useEffect(() => {
@@ -69,21 +70,12 @@ export default function ChatPage() {
         currentEmail,
       );
 
-      if (result?.type === "answer") {
+      if (result?.type === "agent_response") {
         setMessages((prev) => [
           ...prev,
           {
             sender: "ai",
             text: result.reply,
-            timestamp: new Date().toISOString(),
-          },
-        ]);
-      } else if (result?.type === "ticket_created") {
-        setMessages((prev) => [
-          ...prev,
-          {
-            sender: "ai",
-            text: `I've created a support ticket for this (Priority: ${result.ticket.priority}). Our team will follow up soon. Ticket ID: ${result.ticket.id}`,
             timestamp: new Date().toISOString(),
           },
         ]);
@@ -132,12 +124,14 @@ export default function ChatPage() {
         <div className="chat-page">
           <aside className="sidebar">
             <div className="sidebar-top">
-              <h3>Support Tickets</h3>
+              <button className="toggle-tickets-btn" onClick={() => setShowTickets((prev) => !prev)}>
+                {showTickets ? "Hide tickets" : "Show tickets"}
+              </button>
               <button className="signout-btn" onClick={handleSignOut}>
                 Sign Out
               </button>
             </div>
-            <TicketList tickets={usertickets} />
+            {showTickets ? <TicketList tickets={usertickets} /> : <div className="tickets-collapsed">Your support tickets will appear here.</div>}
           </aside>
 
           <main className="chat-area">
