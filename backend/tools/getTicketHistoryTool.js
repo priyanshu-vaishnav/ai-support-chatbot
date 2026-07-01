@@ -11,7 +11,7 @@ function buildGetTicketHistoryTool({ customerEmail }) {
       reason: z
         .string()
         .describe(
-          "Brief reason why you are checking the ticket history, e.g. 'customer asked about past tickets'"
+          "Brief reason why you are checking the ticket history, e.g. 'customer asked about past tickets'",
         ),
     }),
     func: async ({ reason }) => {

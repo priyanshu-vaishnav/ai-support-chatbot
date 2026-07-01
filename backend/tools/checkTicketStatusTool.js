@@ -26,7 +26,6 @@ function buildCheckTicketStatusTool({ customerEmail }) {
     {
       name: "check_ticket_status",
       description: "Check the status of the customer's most recent support ticket. Use this when the customer asks about an existing ticket, like 'has my issue been resolved' or 'what happened to my last ticket'.",
-      // Strict empty schema taaki model apne man se koi variable na generate kare
       schema: z.object({}), 
     }
   );

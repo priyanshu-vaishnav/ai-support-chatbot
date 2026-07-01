@@ -5,6 +5,8 @@
   gap: 16px;
   padding: 16px;
   font-family: system-ui, -apple-system, sans-serif;
+  overflow-y:scroll;
+  height:100vh;
 }
 
 /* Main Card */
@@ -17,6 +19,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  
 }
 
 .ticket-card:hover {

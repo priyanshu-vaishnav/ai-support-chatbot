@@ -26,11 +26,13 @@ export default function ChatPage() {
           timestamp: new Date().toISOString(),
         },
       ]);
+      console.log("fetched")
     } else {
       setMessages([]);
     }
-  }, [user]);
+  }, []);
 
+  
   useEffect(() => {
     async function getTickets() {
       if (!user?.email) return;
@@ -64,6 +66,8 @@ export default function ChatPage() {
     try {
       const currentUsername = user?.user_metadata?.username || "Guest";
       const currentEmail = user?.email || "";
+
+
       const result = await sendChatMessage(
         userMessage,
         currentUsername,
